@@ -14,3 +14,13 @@ This project includes ports of the follow:
 And a few samples, to get you started.
 
 Also, used by the OpenCV project: http://opencv.org/android
+
+``Intention of this fork``
+
+If you havn't noticed the original project "android.cmake" has some significant
+differences from most other "toolchans" for CMake. Aim of this project to make 
+it more friendly to other toolchains.
+
+ * Correct build/output directory handling
+ * Friendly configuration in cmake-gui
+ * Mutiple build targets
