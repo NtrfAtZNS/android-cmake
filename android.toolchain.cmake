@@ -303,6 +303,10 @@
 #     [~] fix copying of shared STL
 #   - April 2014
 #     [+] updated for NDK r9d
+#  Change Log (NtrfAtZNS):
+#   - May 2014
+#     [*] removed CMAKE_LIBRARY_OUTPUT_PATH and CMAKE_EXECUTABLE_OUTPUT_PATH 
+#         from cache
 # ------------------------------------------------------------------------------
 
 cmake_minimum_required( VERSION 2.6.3 )
@@ -1547,17 +1551,7 @@ if( ANDROID_EXPLICIT_CRT_LINK )
 endif()
 
 # setup output directories
-set( LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_SOURCE_DIR} CACHE PATH "root for library output, set this to change where android libs are installed to" )
 set( CMAKE_INSTALL_PREFIX "${ANDROID_TOOLCHAIN_ROOT}/user" CACHE STRING "path for installing" )
-
-if(NOT _CMAKE_IN_TRY_COMPILE)
- if( EXISTS "${CMAKE_SOURCE_DIR}/jni/CMakeLists.txt" )
-  set( EXECUTABLE_OUTPUT_PATH "${LIBRARY_OUTPUT_PATH_ROOT}/bin/${ANDROID_NDK_ABI_NAME}" CACHE PATH "Output directory for applications" )
- else()
-  set( EXECUTABLE_OUTPUT_PATH "${LIBRARY_OUTPUT_PATH_ROOT}/bin" CACHE PATH "Output directory for applications" )
- endif()
- set( LIBRARY_OUTPUT_PATH "${LIBRARY_OUTPUT_PATH_ROOT}/libs/${ANDROID_NDK_ABI_NAME}" CACHE PATH "path for android libs" )
-endif()
 
 # copy shaed stl library to build directory
 if( NOT _CMAKE_IN_TRY_COMPILE AND __libstl MATCHES "[.]so$" )
