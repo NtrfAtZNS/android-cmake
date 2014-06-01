@@ -309,6 +309,8 @@
 #         from cache
 #     [*] removed compiler settings from cahce. compiler version can be changed
 #         at any time now
+#     [~] fixed "unknown acrcitecture 'armv7'" message with clang
+#     [+] added configuration variable selecting build type for try_compile
 # ------------------------------------------------------------------------------
 
 cmake_minimum_required( VERSION 2.6.3 )
@@ -1488,6 +1490,19 @@ if( MIPS AND BUILD_WITH_ANDROID_NDK AND ANDROID_NDK_RELEASE STREQUAL "r8" )
  set( CMAKE_SHARED_LINKER_FLAGS "-Wl,-T,${ANDROID_NDK_TOOLCHAINS_PATH}/${ANDROID_GCC_TOOLCHAIN_NAME}/mipself.xsc ${CMAKE_SHARED_LINKER_FLAGS}" )
  set( CMAKE_MODULE_LINKER_FLAGS "-Wl,-T,${ANDROID_NDK_TOOLCHAINS_PATH}/${ANDROID_GCC_TOOLCHAIN_NAME}/mipself.xsc ${CMAKE_MODULE_LINKER_FLAGS}" )
  set( CMAKE_EXE_LINKER_FLAGS    "-Wl,-T,${ANDROID_NDK_TOOLCHAINS_PATH}/${ANDROID_GCC_TOOLCHAIN_NAME}/mipself.x ${CMAKE_EXE_LINKER_FLAGS}" )
+endif()
+
+# don't allow selected config to remain empty
+if( ANDROID_COMPILER_IS_CLANG ) 
+ if( NOT CMAKE_BUILD_TYPE )
+  set(CMAKE_BUILD_TYPE "Debug")
+ endif()
+endif()
+
+set( CMAKE_TRY_COMPILE_CONFIGURATION "" CACHE STRING "Configuration used for platform checks" )
+
+if( NOT CMAKE_TRY_COMPILE_CONFIGURATION )
+ set(CMAKE_TRY_COMPILE_CONFIGURATION ${CMAKE_BUILD_TYPE})
 endif()
 
 # configure rtti
